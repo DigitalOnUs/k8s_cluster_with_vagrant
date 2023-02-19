@@ -28,4 +28,3 @@
 6. check that you can get nodes and verify the version
    ` kubectl get nodes -o wide `
 
-> **This code is based on KodeKcloud labs on CKA course**
