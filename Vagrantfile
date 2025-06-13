@@ -2,7 +2,8 @@
 # vi: set ft=ruby :
 
 #Define here the version for kubeadm, kubelet and kubectl
-K8S_VERSION = "1.25.0-00"
+#K8S_VERSION = "1.30.0-00"
+K8S_VERSION = "1.30"
 
 # Define the number of master and worker nodes
 # If this number is changed, remember to update setup-hosts.sh script with the new hosts IP details in /etc/hosts of each VM.
@@ -25,7 +26,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "hashicorp/bionic64"
+  #config.vm.box = "hashicorp/bionic64"
+  config.vm.box = "ubuntu/focal64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

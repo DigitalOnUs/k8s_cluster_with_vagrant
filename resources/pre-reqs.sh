@@ -1,7 +1,8 @@
 #!/bin/bash
 #set -e
+set -x
 K8S_VERSION=$1
-
+#K8S_REPO_VERSION=$(echo $K8S_VERSION | cut -d '.' -f 1,2)
 echo "### Downloading and Installing pre-reqs to setup the Kubernetes cluster.... ###"
 echo " "
 echo " "
@@ -81,10 +82,12 @@ if [ $? -eq 0 ]; then
    echo " "
 fi
 echo " "
-sudo apt-get install apt-transport-https
+sudo apt-get update && sudo apt-get install -y apt-transport-https
 #Download K8s Keyrings
 echo "### Downloading Kubernetes keyrings ###"
-sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+echo " "
+#curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v$K8S_VERSION/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 if [ $? -eq 0 ]; then
    echo "K8s Keyrings downloaded successfully"
    echo " "
@@ -92,12 +95,13 @@ fi
 # Adding K8s repository to sources list
 echo "### Adding K8s repository to sources list"
 echo " "
-echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v$K8S_VERSION/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 echo " "
 echo "Updating packages list"
 sudo apt-get update
 echo " "
 echo "### Installing K8s packages ( kubeadm, kubelet and kubectl ) ###"
-sudo apt-get install -y kubectl=$K8S_VERSION kubeadm=$K8S_VERSION kubelet=$K8S_VERSION
+#sudo apt-get install -y kubectl=$K8S_VERSION kubeadm=$K8S_VERSION kubelet=$K8S_VERSION
+sudo apt-get install -y kubectl kubeadm kubelet
 echo " " >> /home/vagrant/.profile
 echo alias k=\"kubectl\" >> /home/vagrant/.profile
