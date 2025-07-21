@@ -1,6 +1,6 @@
 #!/bin/bash
 #set -e
-set -x
+#set -x
 K8S_VERSION=$1
 #K8S_REPO_VERSION=$(echo $K8S_VERSION | cut -d '.' -f 1,2)
 echo "### Downloading and Installing pre-reqs to setup the Kubernetes cluster.... ###"
